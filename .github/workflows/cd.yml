@@ -27,12 +27,6 @@ jobs:
       - name: Install Goose
         run: go install github.com/pressly/goose/v3/cmd/goose@latest
 
-      - name: Migrate database
-        run: ./scripts/migrateup.sh
-
-      - name: Install Cloud SDK
-        run: gcloud components install gcloud
-
       - id: "auth"
         uses: "google-github-actions/auth@v2"
         with:
@@ -40,6 +34,9 @@ jobs:
 
       - name: "Set up Cloud SDK"
         uses: "google-github-actions/setup-gcloud@v2"
+
+      - name: Migrate database
+        run: ./scripts/migrateup.sh
 
       - name: Deploy to GCP
         run: gcloud builds submit --tag us-central1-docker.pkg.dev/notely-453410/notely-ar-repo/notely:latest .
